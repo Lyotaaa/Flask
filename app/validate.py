@@ -1,46 +1,93 @@
 import pydantic
-import typing
 from errors import HttpError
 from hashlib import md5
 
 
-class CreateOwner(pydantic.BaseModel):
-    email: str
-    password: str
-
-    @pydantic.validator("password")
-    def secure_password(self, value):
-        if len(value) < 8:
-            raise ValueError("Password is short")
-        return value
-
-
-class Create_Ads(pydantic.BaseModel):
-    title: str
-    description: str
-    owner_id: int
-
-    @pydantic.validator("title")
-    def secure_password(self, value):
-        if 20 > len(value) > 1:
-            raise ValueError("Long title")
-        return value
-
-    @pydantic.validator("description")
-    def secure_password(self, value):
-        if 30 > len(value) > 1:
-            raise ValueError("Long description")
-        return value
-
-
-def validate(val_schema, val_data):
+def validate(json_data, model_class):
     try:
-        return val_schema(**val_data).dict()
-    except pydantic.ValidationError as er:
-        raise HttpError(400, er.errors())
+        model = model_class(**json_data)
+        return model.dict(exclude_none=True)
+    except pydantic.ValidationError as err:
+        raise HttpError(400, err.errors())
 
 
 def hash_password(password: str):
     password = password.encode()
     password = md5(password).hexdigest()
     return password
+
+
+class CreateOwner(pydantic.BaseModel):
+    """Валидация данных при создании пользователя"""
+
+    email: str
+    password: str
+
+    @pydantic.validator("email")
+    def validate_email(cls, value):
+        if "@" not in value:
+            raise ValueError("Invalid email")
+        return value
+
+    @pydantic.validator("password")
+    def val_password(cls, value):
+        if len(value) < 3:
+            raise ValueError("Short password")
+        return value
+
+
+class UpdateOwner(pydantic.BaseModel):
+    """Валидация данных при обновлении пользователя"""
+
+    email: str
+    password: str
+
+    @pydantic.validator("email")
+    def validate_email(cls, value):
+        if "@" not in value:
+            raise ValueError("Invalid email")
+        return value
+
+    @pydantic.validator("password")
+    def validate_password(cls, value):
+        if len(value) < 3:
+            raise ValueError("Short password")
+        return value
+
+
+# class Create_Ads(pydantic.BaseModel):
+#     """Валидация данных при создании объявления"""
+#     title: str
+#     description: str
+#     owner_id: int
+#
+#     @pydantic.validator("title")
+#     def secure_password(cls, value):
+#         if 20 < len(value):
+#             raise ValueError("Длинный заголовок")
+#         return value
+#
+#     @pydantic.validator("description")
+#     def secure_password(cls, value):
+#         if len(value) > 30:
+#             raise ValueError("Длинное описание")
+#         return value
+#
+#
+# class Update_Ads(pydantic.BaseModel):
+#     """Валидация данных при обновлении объявления"""
+#     title: str
+#     description: str
+#     owner_id: int
+#
+#     @pydantic.validator("title")
+#     def secure_password(cls, value):
+#         if 20 < len(value):
+#             raise ValueError("Длинный заголовок")
+#         return value
+#
+#     @pydantic.validator("description")
+#     def secure_password(cls, value):
+#         if len(value) > 30:
+#             raise ValueError("Длинное описание")
+#         return value
