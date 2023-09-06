@@ -57,6 +57,7 @@ class UpdateOwner(pydantic.BaseModel):
 
 class CreateAds(pydantic.BaseModel):
     """Валидация данных при создании объявления"""
+
     title: str
     description: str
     owner_id: int
@@ -76,6 +77,7 @@ class CreateAds(pydantic.BaseModel):
 
 class UpdateAds(pydantic.BaseModel):
     """Валидация данных при обновлении объявления"""
+
     title: str
     description: str
     owner_id: int

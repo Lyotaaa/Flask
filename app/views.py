@@ -1,7 +1,14 @@
 from flask import jsonify, request
 from flask.views import MethodView
 from errors import HttpError
-from validate import validate, hash_password, CreateOwner, UpdateOwner, CreateAds, UpdateAds
+from validate import (
+    validate,
+    hash_password,
+    CreateOwner,
+    UpdateOwner,
+    CreateAds,
+    UpdateAds,
+)
 from models import Session, OwnerModel, AdsModel
 from sqlalchemy.exc import IntegrityError
 
@@ -87,7 +94,7 @@ class AdsView(MethodView):
                     "id": ads.id,
                     "title": ads.title,
                     "description": ads.description,
-                    #"time": ads.creation_time,
+                    # "time": ads.creation_time,
                     "owner": ads.owner_id,
                 }
             )
@@ -103,7 +110,7 @@ class AdsView(MethodView):
                     "id": ads.id,
                     "title": ads.title,
                     "description": ads.description,
-                    #"create_time": ads.creation_time,
+                    # "create_time": ads.creation_time,
                     "owner": ads.owner_id,
                 }
             )
@@ -121,7 +128,7 @@ class AdsView(MethodView):
                     "id": new_ads.id,
                     "title": new_ads.title,
                     "description": new_ads.description,
-                    #"create_time": new_ads.creation_time,
+                    # "create_time": new_ads.creation_time,
                     "owner": new_ads.owner_id,
                 }
             )
