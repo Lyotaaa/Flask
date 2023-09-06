@@ -1,6 +1,9 @@
 # Установка и запуск
+
 ## Подготовка
+
 Для запуска необходимо заполнить файл [.env.template](./app/env.template)
+
 ## Создайте вертуально окружение
 ```
 python -m venv ...
@@ -19,10 +22,9 @@ docker compose up -d
 ```
 ## Запустите файл main.py
 [main.py](./app/main.py)
+
 ## Для отпарвки запросов используйте файл client.py
 [client.py](./app/client.py)
-
-
 
 ## Домашнее задание к лекции «Flask»
 
