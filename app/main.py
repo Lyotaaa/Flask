@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from errors import HttpError
-from views import OwnerView
+from views import OwnerView, AdsView
 
 app = Flask("app")
 
@@ -24,6 +24,18 @@ app.add_url_rule(
 )
 app.add_url_rule(
     "/owner/", view_func=OwnerView.as_view("create_owner"), methods=["POST"]
+)
+
+app.add_url_rule(
+    "/ads/<int:ads_id>",
+    view_func=AdsView.as_view("ads"),
+    methods=["GET", "PATCH", "DELETE"],
+)
+
+app.add_url_rule(
+    "/ads/",
+    view_func=AdsView.as_view("create_ads"),
+    methods=["POST"],
 )
 
 if __name__ == "__main__":

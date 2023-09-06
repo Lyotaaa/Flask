@@ -55,39 +55,39 @@ class UpdateOwner(pydantic.BaseModel):
         return value
 
 
-# class Create_Ads(pydantic.BaseModel):
-#     """Валидация данных при создании объявления"""
-#     title: str
-#     description: str
-#     owner_id: int
-#
-#     @pydantic.validator("title")
-#     def secure_password(cls, value):
-#         if 20 < len(value):
-#             raise ValueError("Длинный заголовок")
-#         return value
-#
-#     @pydantic.validator("description")
-#     def secure_password(cls, value):
-#         if len(value) > 30:
-#             raise ValueError("Длинное описание")
-#         return value
-#
-#
-# class Update_Ads(pydantic.BaseModel):
-#     """Валидация данных при обновлении объявления"""
-#     title: str
-#     description: str
-#     owner_id: int
-#
-#     @pydantic.validator("title")
-#     def secure_password(cls, value):
-#         if 20 < len(value):
-#             raise ValueError("Длинный заголовок")
-#         return value
-#
-#     @pydantic.validator("description")
-#     def secure_password(cls, value):
-#         if len(value) > 30:
-#             raise ValueError("Длинное описание")
-#         return value
+class CreateAds(pydantic.BaseModel):
+    """Валидация данных при создании объявления"""
+    title: str
+    description: str
+    owner_id: int
+
+    @pydantic.validator("title")
+    def secure_title(cls, value):
+        if 20 < len(value):
+            raise ValueError("Long title")
+        return value
+
+    @pydantic.validator("description")
+    def secure_description(cls, value):
+        if len(value) > 30:
+            raise ValueError("Long description")
+        return value
+
+
+class UpdateAds(pydantic.BaseModel):
+    """Валидация данных при обновлении объявления"""
+    title: str
+    description: str
+    owner_id: int
+
+    @pydantic.validator("title")
+    def secure_title(cls, value):
+        if 20 < len(value):
+            raise ValueError("Long title")
+        return value
+
+    @pydantic.validator("description")
+    def secure_description(cls, value):
+        if len(value) > 30:
+            raise ValueError("Long description")
+        return value
